@@ -31,3 +31,27 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
         }
     });
 })
+
+Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
+    if (options && options.sensitive) {
+        // turn off original log
+        options.log = false
+        // create our own log with masked message
+        Cypress.log({
+            $el: element,
+            name: 'type',
+            message: '*'.repeat(text.length),
+        })
+    }
+    return originalFn(element, text, options)
+})
+
+Cypress.Commands.add('signIn', (email,password) => {
+    cy.get('.header_right').contains('Sign In').click();
+    cy.get('.modal-content').within(() => {
+        cy.get('#signinEmail').type(email)
+        cy.get('#signinPassword').type(password,{ sensitive: true }) //
+        cy.wait(2000);
+        cy.get('.btn-primary').click();
+    })
+})
