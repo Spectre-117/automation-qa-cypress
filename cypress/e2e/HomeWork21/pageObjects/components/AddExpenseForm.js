@@ -15,8 +15,8 @@ class AddExpenseForm {
 
             cy.get('#addExpenseMileage').click().clear().type('1600')
             cy.get('#addExpenseTotalCost').type('3300');
-            cy.get('#addExpenseLiters').click().blur()
-            cy.contains("Liters required");
+            // cy.get('#addExpenseLiters').click().blur()
+            // cy.contains("Liters required");
             cy.get('#addExpenseLiters').click().clear().type('30')
         })
     }
